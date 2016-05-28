@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/vitoloper/mongodb-elasticsearch-import#readme",
   "dependencies": {
+    "async": "^2.0.0-rc.5",
     "elasticsearch": "^11.0.1",
     "mongodb": "^2.1.20"
   }
