@@ -1,0 +1,29 @@
+{
+  "name": "mongodb-elasticsearch-import",
+  "version": "0.9.0",
+  "description": "A tool to import data from MongoDB into Elasticsearch.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vitoloper/mongodb-elasticsearch-import.git"
+  },
+  "keywords": [
+    "mongodb",
+    "elasticsearch",
+    "data",
+    "import"
+  ],
+  "author": "vitoloper",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vitoloper/mongodb-elasticsearch-import/issues"
+  },
+  "homepage": "https://github.com/vitoloper/mongodb-elasticsearch-import#readme",
+  "dependencies": {
+    "elasticsearch": "^11.0.1",
+    "mongodb": "^2.1.20"
+  }
+}
