@@ -26,7 +26,7 @@ MongoClient.connect(config.db_url, function(err, db) {
 
     // Get collection and cursor
     collection = db.collection(config.db_collection);
-    cursor = collection.find().batchSize(config.db_batch_size);
+    cursor = collection.find(config.db_find_query).batchSize(config.db_batch_size);
 
     async.whilst(
         function () { return currentItem !== null; },
