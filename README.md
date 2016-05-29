@@ -7,7 +7,7 @@ A tool to import data from MongoDB into Elasticsearch.
 Clone the repository and install the required modules:
 
 ```sh
-$ git clone [git-repo-url] mongodb-elasticsearch-import
+$ git clone https://github.com/vitoloper/mongodb-elasticsearch-import.git mongodb-elasticsearch-import
 $ cd mongodb-elasticsearch-import
 $ npm install
 ```
