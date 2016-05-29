@@ -1,19 +1,21 @@
 var elasticsearch = require('elasticsearch');
 var mongodb = require('mongodb');
 var async = require('async');
+var config = require('./config/default');
 
 var MongoClient = mongodb.MongoClient;
 
-var url = 'mongodb://localhost:27017/twitter';
-var collectionName = 'tweets';
-
 var esClient = new elasticsearch.Client({
-    host: 'localhost:9200',
-    log: 'error'
+    host: config.es_host,
+    log: config.es_log_level
 });
 
-MongoClient.connect(url, function(err, db) {
+MongoClient.connect(config.db_url, function(err, db) {
+    var collection;
+    var cursor;
     var count = 0;
+    var currentItem;
+    var bulkArray = [];
 
     if (err) {
         console.log(err);
@@ -23,14 +25,11 @@ MongoClient.connect(url, function(err, db) {
     console.log("Connected succesfully to MongoDB server");
 
     // Get collection and cursor
-    var collection = db.collection(collectionName);
-    var cursor = collection.find();
-    var count = 0;
-    var currentItem;
-    var bulkArray = [];
+    collection = db.collection(config.db_collection);
+    cursor = collection.find().batchSize(config.db_batch_size);
 
     async.whilst(
-        function () { return currentItem !== null },
+        function () { return currentItem !== null; },
         function (callback) {
             cursor.nextObject(function (err, item) {
                 var docId;
@@ -47,12 +46,14 @@ MongoClient.connect(url, function(err, db) {
                 // Fill the array
                 docId = item._id.toString();
                 delete item._id;
-                bulkArray.push({index: {_index: 'twitter', _type: 'tweet', _id: docId}});
+                bulkArray.push({index: {_index: config.es_index, _type: config.es_type, _id: docId}});
                 bulkArray.push(item);
                 
-                if ((count % 100) !== 0) {
+                if ((count % config.es_bulk_size) !== 0) {
+                    // Do nothing and continue
                     callback(null, count);
-                } else {    // Write to index and clean the array
+                } else {    
+                    // Write to index and clean the array
                     esClient.bulk({
                         body: bulkArray
                     }, function (err, resp) {
