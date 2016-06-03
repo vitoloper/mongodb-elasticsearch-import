@@ -14,7 +14,34 @@ $ npm install
 
 ## Setup
 
-Edit the default configuration file default.js in the config/ directory.
+Edit the default configuration file default.js in the config/ directory:
+
+```javascript
+module.exports = {
+    db_url: 'mongodb://localhost:27017/twitter',
+    db_collection: 'tweets',
+    db_find_query: {},
+    db_batch_size: 100,
+    es_host: 'localhost:9200',
+    es_log_level: 'error',
+    es_index: 'twitter',
+    es_type: 'tweet',
+    es_bulk_size: 300
+};
+```
+
+Options are:
+
+* `db_url` - MongoDB database URL.
+* `db_collection` - the collection you want to import into Elasticsearch.
+* `db_find_query` - the query to perform on the MongoDB collection.
+* `db_batch_size` - the number of documents to return in each batch of the response from the MongoDB instance.
+* `es_host` - the host on which Elasticsearch is running.
+* `es_log_level` - Elasticsearch client logging level.
+* `es_index` - the destination index.
+* `es_type` - the type in the destination index.
+* `es_bulk_size` - number of documents to index in a single step.
+
 
 ## Run
 
